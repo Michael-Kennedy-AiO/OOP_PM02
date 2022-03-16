@@ -1,5 +1,7 @@
 package main;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -12,8 +14,8 @@ public class Main {
 		Scanner input = new Scanner(System.in);
 		Random rd = new Random();
 		
-		List<HoaDonTheoGio> dsHD_TheoGio;
-		List<HoaDonTheoNgay> dsHD_TheoNgay;
+		List<HoaDonTheoGio> dsHD_TheoGio = new ArrayList<HoaDonTheoGio>();
+		List<HoaDonTheoNgay> dsHD_TheoNgay = new ArrayList<HoaDonTheoNgay>();;
 		
 //		Date startDate = new Date(2012, 1, 1);
 //		Date endDate = new Date(2022, 16, 3);
@@ -32,9 +34,11 @@ public class Main {
 			if (random == 1) {
 			    String date = Integer.toString(randomNgay)+"-"+Integer.toString(randomThang)+"-"+Integer.toString(randomNam);
 				HoaDonTheoGio hd = new HoaDonTheoGio(rd.nextInt(10000)+9999, date, "Dương Đức Tiến", roomId, donGia);
+				dsHD_TheoGio.add(hd);
 			}else {
 				String date = Integer.toString(randomNgay)+"-"+Integer.toString(randomThang)+"-"+Integer.toString(randomNam);
-				HoaDonTheoGio hd = new HoaDonTheoGio(rd.nextInt(10000)+9999, date, "Dương Đức Tiến", roomId, donGia);
+				HoaDonTheoNgay hd = new HoaDonTheoNgay(rd.nextInt(10000)+9999, date, "Dương Đức Tiến", roomId, donGia);
+				dsHD_TheoNgay.add(hd);
 			}
 		}
 		
@@ -54,13 +58,40 @@ public class Main {
 				System.out.println("------------------------------------\nHãy nhập thông tin");
 				System.out.print("Thuê theo giờ hay theo ngày: 1 → Theo giờ		2 → Theo ngày| Lựa chọn: "); int choose = input.nextInt();
 				if (choose == 1) {
+					LocalDateTime now = LocalDateTime.now();
+					String date = Integer.toString(now.getDayOfMonth()) +"-"+ Integer.toString(now.getMonthValue()) +"-"+ Integer.toString(now.getYear());
+					System.out.print("Nhập số phòng: "); int roomId = input.nextInt();
+					System.out.print("Nhập đơn giá: "); int donGia = input.nextInt();
 					HoaDonTheoGio hd = new HoaDonTheoGio(rd.nextInt(10000)+9999, date, "Dương Đức Tiến", roomId, donGia);
+					dsHD_TheoGio.add(hd);
 				}else if (choose == 1){
-					
+					LocalDateTime now = LocalDateTime.now();
+					String date = Integer.toString(now.getDayOfMonth()) +"-"+ Integer.toString(now.getMonthValue()) +"-"+ Integer.toString(now.getYear());
+					System.out.print("Nhập số phòng: "); int roomId = input.nextInt();
+					System.out.print("Nhập đơn giá: "); int donGia = input.nextInt();
+					HoaDonTheoNgay hd = new HoaDonTheoNgay(rd.nextInt(10000)+9999, date, "Dương Đức Tiến", roomId, donGia);
+					dsHD_TheoNgay.add(hd);
+				}
+				break;
+			case 2:
+				for (HoaDonTheoGio hoaDonTheoGio : dsHD_TheoGio) {
+					hoaDonTheoGio.XuatHoaDon();
 				}
 				
-				break;
-
+				for (HoaDonTheoNgay hoaDonTheoNgay : dsHD_TheoNgay) {
+					hoaDonTheoNgay.XuatHoaDon();
+				}
+			case 3:
+				int count1 = 0;
+				int count2 = 0;
+				for (HoaDonTheoGio hoaDonTheoGio : dsHD_TheoGio) {
+					count1++;
+				}
+				
+				for (HoaDonTheoNgay hoaDonTheoNgay : dsHD_TheoNgay) {
+					count2++;
+				}
+				System.out.println("Tổng hóa đơn theo ngày: "+count2+"	Tổng hóa đơn theo giờ: "+count1);
 			default:
 				break;
 			}
